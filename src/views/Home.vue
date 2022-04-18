@@ -33,6 +33,59 @@ export default {
     Aside,
     Main,
   },
+  data() {
+    return ({
+      category: 'ag',
+      interval: 0,
+    });
+  },
+  mounted() {
+    this.$bus.$on('inputDateInterval', this.restoreData);
+    this.$bus.$on('shiftSideBar', this.chooseCategory);
+  },
+  methods: {
+    readFile(filePath) {
+      return new Promise(function (resolve, reject) {
+        let xhr = new XMLHttpRequest();
+        xhr.open("get", filePath, true);
+        xhr.responseType = "blob";
+        xhr.onload = function() {
+          if (this.status == 200) {
+            const reader = new FileReader();
+            reader.onload = function() {
+              resolve(reader.result);
+            }
+            reader.readAsText(this.response);
+          } else {
+            console.log('err');
+          }
+        }
+        xhr.send();
+      })
+    },
+    restoreData(length) {
+      console.log(this.category);
+      this.interval = length;
+      let d0 = [], d1 = [], d2 = [], d3 = [], d4 = [], d5 = [];
+      this.readFile(`0_${this.category}_15m.txt`).then(res => {
+        let arr = res.split('\r\n'), temparr;
+        for (let i = length - 1; i >= 0; --i) {
+          temparr = JSON.parse(arr[i]);
+          d0.push(temparr[0]);
+          d1.push(temparr[1]);
+          d2.push(temparr[2]);
+          d3.push(temparr[3]);
+          d4.push(temparr[4]);
+          d5.push(temparr[5]);
+        }
+      })
+      this.$bus.$emit('intervalData', [d0, d1, d2, d3, d4, d5]);
+    },
+    chooseCategory(ca) {
+      this.category = ca;
+    },
+  },
+
 };
 </script>
 
@@ -46,7 +99,7 @@ export default {
   padding: 0;
 }
 .el-aside {
-  padding: 0 10px;
+  padding: 0px 0px 0px 0px;
 }
 .head {
   height: 60px;
@@ -54,7 +107,6 @@ export default {
   margin-bottom: 20px;
 }
 .aside {
-  width: 100%;
   height: 100%;
   float: left;
   background-color: #545c64;

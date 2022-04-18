@@ -8,44 +8,51 @@
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
+        collapse=true
       >
-        <el-submenu index="1">
+        <el-menu-item index="1">
+          <i class="el-icon-document"></i>
+          <span slot="title">介绍</span>
+        </el-menu-item>
+        <el-submenu index="2">
           <template slot="title">
-            <i class="el-icon-location"></i>
-            <span>导航一</span>
+            <i class="el-icon-menu"></i>
+            <span>商品类型</span>
           </template>
           <el-menu-item-group>
-            <template slot="title">分组一</template>
-            <el-menu-item index="1-1">选项1</el-menu-item>
-            <el-menu-item index="1-2">选项2</el-menu-item>
+            <el-menu-item index="ag" @click=handleClick>ag</el-menu-item>
+            <el-menu-item index="al" @click=handleClick>al</el-menu-item>
+            <el-menu-item index="au" @click=handleClick>au</el-menu-item>
+            <el-menu-item index="bu" @click=handleClick>bu</el-menu-item>
+            <el-menu-item index="cf" @click=handleClick>cf</el-menu-item>
+            <el-menu-item index="cu" @click=handleClick>cu</el-menu-item>
+            <el-menu-item index="dci" @click=handleClick>dci</el-menu-item>
+            <el-menu-item index="dcp" @click=handleClick>dcp</el-menu-item>
+            <el-menu-item index="fg" @click=handleClick>fg</el-menu-item>
+            <el-menu-item index="j" @click=handleClick>j</el-menu-item>
+            <el-menu-item index="jm" @click=handleClick>jm</el-menu-item>
+            <el-menu-item index="ma" @click=handleClick>ma</el-menu-item>
+            <el-menu-item index="ni" @click=handleClick>ni</el-menu-item>
+            <el-menu-item index="pb" @click=handleClick>pb</el-menu-item>
+            <el-menu-item index="rb" @click=handleClick>rb</el-menu-item>
+            <el-menu-item index="sn" @click=handleClick>sn</el-menu-item>
+            <el-menu-item index="sr" @click=handleClick>sr</el-menu-item>
+            <el-menu-item index="zn" @click=handleClick>zn</el-menu-item>
           </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="1-3">选项3</el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="1-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="1-4-1">选项1</el-menu-item>
-          </el-submenu>
         </el-submenu>
-        <el-menu-item index="2">
-          <i class="el-icon-menu"></i>
-          <span slot="title">导航二</span>
-        </el-menu-item>
-        <el-menu-item index="3" disabled>
-          <i class="el-icon-document"></i>
-          <span slot="title">导航三</span>
-        </el-menu-item>
-        <el-menu-item index="4">
-          <i class="el-icon-setting"></i>
-          <span slot="title">导航四</span>
-        </el-menu-item>
       </el-menu>
     </el-col>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    handleClick(event) {
+      this.$bus.$emit('shiftSideBar', event.index);
+    }
+  },
+};
 </script>
 
 <style scoped>

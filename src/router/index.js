@@ -6,9 +6,8 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes: [
-    { path: '/', redirect: '/home' },
     {
-      path: '/home',
+      path: '/',
       component: Home,
       meta: { title: "主页" }
     },

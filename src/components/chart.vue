@@ -1,29 +1,52 @@
 <template>
-  <div id="main" style="width: 1000px; height: 400px"></div>
+  <div id="main" style="width: 1200px; height: 560px"></div>
 </template>
 
 <script>
 import * as echarts from "echarts";
 
 export default {
+  data() {
+    return ({
+      myChart: null,
+      p0: [],
+      p1: [],
+      p2: [],
+      p3: [],
+      p4: [],
+      p5: [],
+    })
+  },
+  watch: {
+    p0() {
+      this.$nextTick(() => {
+        this.chart();
+      })
+    },
+  },
   mounted() {
+    this.$bus.$on('intervalData', this.demo);
+    this.$bus.$on('shiftSideBar', this.reset);
     this.chart();
   },
   methods: {
+    demo([d0, d1, d2, d3, d4, d5]) {
+      [this.p0, this.p1, this.p2, this.p3, this.p4, this.p5] = [d0, d1, d2, d3, d4, d5];
+    },
+    reset() {
+      [this.p0, this.p1, this.p2, this.p3, this.p4, this.p5] = [[], [], [], [], [], []];
+    },
     chart() {
-      var chartDom = document.getElementById("main");
-      var myChart = echarts.init(chartDom);
-      var option;
-
-      option = {
+      this.myChart = echarts.init(document.getElementById("main"));
+      var option = {
         title: {
-          text: "Title",
+          text: "趋势折线图",
         },
         tooltip: {
           trigger: "axis",
         },
         legend: {
-          data: ["Email", "Union Ads", "Video Ads", "Direct", "Search Engine"],
+          data: ["开盘价", "收盘价", "最高价", "最低价", "交易量"],
         },
         grid: {
           left: "3%",
@@ -39,46 +62,61 @@ export default {
         xAxis: {
           type: "category",
           boundaryGap: false,
-          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+          data: this.p0,
         },
-        yAxis: {
+        yAxis: [{
           type: "value",
+          min: "dataMin",
+          max: "dataMax",
+          position: "left",
+          axisLabel: {
+            formatter: "{value} rmb"
+          }
         },
+        {
+          type: "value",
+          min: "dataMin",
+          max: "dataMax",
+          position: "right",
+          axisLabel: {
+            formatter: "{value} 单"
+          }
+        }],
         series: [
           {
-            name: "Email",
+            name: "开盘价",
             type: "line",
-            stack: "Total",
-            data: [120, 132, 101, 134, 90, 230, 210],
+            yAxisIndex: 0,
+            data: this.p1,
           },
           {
-            name: "Union Ads",
+            name: "收盘价",
             type: "line",
-            stack: "Total",
-            data: [220, 182, 191, 234, 290, 330, 310],
+            yAxisIndex: 0,
+            data: this.p2,
           },
           {
-            name: "Video Ads",
+            name: "最高价",
             type: "line",
-            stack: "Total",
-            data: [150, 232, 201, 154, 190, 330, 410],
+            yAxisIndex: 0,
+            data: this.p3,
           },
           {
-            name: "Direct",
+            name: "最低价",
             type: "line",
-            stack: "Total",
-            data: [320, 332, 301, 334, 390, 330, 320],
+            yAxisIndex: 0,
+            data: this.p4,
           },
           {
-            name: "Search Engine",
+            name: "交易量",
             type: "line",
-            stack: "Total",
-            data: [820, 932, 901, 934, 1290, 1330, 1320],
+            yAxisIndex: 1,
+            data: this.p5,
           },
         ],
       };
 
-      option && myChart.setOption(option);
+      option && this.myChart.setOption(option);
     },
   },
 };

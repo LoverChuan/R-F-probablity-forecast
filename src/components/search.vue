@@ -1,7 +1,7 @@
 <template>
   <div class="search">
-    <el-input v-model="input" placeholder="请输入商品名称"></el-input>
-    <el-button type="primary" icon="el-icon-search">搜索</el-button>
+    <el-input v-model="input" placeholder="请输入日期区间长度"></el-input>
+    <el-button type="primary" icon="el-icon-search" @click="handleClick()">显示</el-button>
   </div>
 </template>
 
@@ -12,6 +12,12 @@ export default {
       input: "",
     };
   },
+  methods: {
+    handleClick() {
+      console.log('hi!', this.input);
+      this.$bus.$emit('inputDateInterval', this.input);
+    }
+  }
 };
 </script>
 <style scoped>

@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <div>
-      <p>期货预测</p>
+      <p>期货涨跌预测</p>
     </div>
   </div>
 </template>
