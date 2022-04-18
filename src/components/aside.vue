@@ -8,7 +8,7 @@
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
-        collapse=true
+        collapse
       >
         <el-menu-item index="1">
           <i class="el-icon-document"></i>
