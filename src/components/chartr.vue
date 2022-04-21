@@ -13,6 +13,7 @@ export default {
       p0: [],
       p1: [],
       p2: [],
+      p3: [],
     })
   },
   watch: {
@@ -41,11 +42,11 @@ export default {
     setfocus(name) {
       this.focusing = (name === 'second');
     },
-    demo([d0, d1, d2]) {
-      [this.p0, this.p1, this.p2] = [d0, d1, d2];
+    demo([d0, d1, d2, d3]) {
+      [this.p0, this.p1, this.p2, this.p3] = [d0, d1, d2, d3];
     },
     reset() {
-      [this.p0, this.p1, this.p2] = [[], [], []];
+      [this.p0, this.p1, this.p2, this.p3] = [[], [], [], []];
     },
     chart() {
       this.myChart = echarts.init(document.getElementById("mainr"));
@@ -57,7 +58,7 @@ export default {
           trigger: "axis",
         },
         legend: {
-          data: ["实际值", "预估值"],
+          data: ["实际值（当日收盘价）", "预估值（线性回归法）", "预估值（对数几率回归法）"],
         },
         grid: {
           left: "3%",
@@ -85,14 +86,19 @@ export default {
         },
         series: [
           {
-            name: "实际值",
+            name: "实际值（当日收盘价）",
             type: "line",
             data: this.p1,
           },
           {
-            name: "预估值",
+            name: "预估值（线性回归法）",
             type: "line",
             data: this.p2,
+          },
+          {
+            name: "预估值（对数几率回归法）",
+            type: "line",
+            data: this.p3,
           },
         ],
       };

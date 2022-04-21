@@ -3,7 +3,7 @@
     <el-tab-pane label="近期数据" name="first">
       <Chartl></Chartl>
     </el-tab-pane>
-    <el-tab-pane label="趋势预测" name="second">
+    <el-tab-pane label="预测结果展示" name="second">
       <Chartr></Chartr>
     </el-tab-pane>
     <el-tab-pane label="次日涨跌预测" name="third">

@@ -71,7 +71,7 @@ export default {
     restoreData(length) {
       console.log("category:", this.category);
       this.interval = length;
-      let d0 = [], d1 = [], d2 = [], d3 = [], d4 = [], d5 = [], d6 = [], d7 = [], arr, temparr;
+      let d0 = [], d1 = [], d2 = [], d3 = [], d4 = [], d5 = [], d6 = [], d7 = [], d8 = [], arr, temparr;
       this.readFile(`0_${this.category}_15m.txt`).then(res0 => {
         arr = res0.replaceAll('\r', '').split('\n'), temparr;
         for (let i = length - 1; i >= 0; --i) {
@@ -82,7 +82,7 @@ export default {
           d3.push(temparr[3]);
           d4.push(temparr[4]);
           d5.push(temparr[5]);
-          d6.push((temparr[1] + temparr[2]) / 2);
+          d6.push(temparr[2]);
         }
         
         console.log("focusing:", this.focusing);
@@ -93,17 +93,24 @@ export default {
             temparr = JSON.parse(arr[i]);
             d7.push(temparr[1]);
           }
-        }).then(() => {
-          console.log(d7);
-          if (this.focusing === 'first') {
-            this.$bus.$emit('intervalDatal', [d0, d1, d2, d3, d4, d5]);
-            return;
-          } else
-          if (this.focusing === 'second') {
-            this.$bus.$emit('intervalDatar', [d0, d6, d7]);
-            return;
-          }
-        });
+          this.readFile(`2_${this.category}_15m.txt`).then(res2 => {
+            arr = res2.replaceAll('\r', '').split('\n')
+            for (let i = length - 1; i >= 0; --i) {
+              temparr = JSON.parse(arr[i]);
+              d8.push(temparr[1]);
+            }
+          }).then(() => {
+            console.log(d7);
+            if (this.focusing === 'first') {
+              this.$bus.$emit('intervalDatal', [d0, d1, d2, d3, d4, d5]);
+              return;
+            } else
+            if (this.focusing === 'second') {
+              this.$bus.$emit('intervalDatar', [d0, d6, d7, d8]);
+              return;
+            }
+          });
+        })
       })
     },
     chooseCategory(ca) {
