@@ -37,11 +37,13 @@ export default {
     return ({
       category: 'ag',
       interval: 0,
+      focusing: '',
     });
   },
   mounted() {
     this.$bus.$on('inputDateInterval', this.restoreData);
     this.$bus.$on('shiftSideBar', this.chooseCategory);
+    this.$bus.$on('FocusEvent', this.setFocus);
   },
   methods: {
     readFile(filePath) {
@@ -63,12 +65,15 @@ export default {
         xhr.send();
       })
     },
+    setFocus(name) {
+      this.focusing = name;
+    },
     restoreData(length) {
-      console.log(this.category);
+      console.log("category:", this.category);
       this.interval = length;
-      let d0 = [], d1 = [], d2 = [], d3 = [], d4 = [], d5 = [];
-      this.readFile(`0_${this.category}_15m.txt`).then(res => {
-        let arr = res.split('\r\n'), temparr;
+      let d0 = [], d1 = [], d2 = [], d3 = [], d4 = [], d5 = [], d6 = [], d7 = [], arr, temparr;
+      this.readFile(`0_${this.category}_15m.txt`).then(res0 => {
+        arr = res0.split('\r\n'), temparr;
         for (let i = length - 1; i >= 0; --i) {
           temparr = JSON.parse(arr[i]);
           d0.push(temparr[0]);
@@ -77,9 +82,29 @@ export default {
           d3.push(temparr[3]);
           d4.push(temparr[4]);
           d5.push(temparr[5]);
+          d6.push((temparr[1] + temparr[2]) / 2);
         }
+        
+        console.log("focusing:", this.focusing);
+
+        this.readFile(`1_${this.category}_15m.txt`).then(res1 => {
+          arr = res1.split('\r\n')
+          for (let i = length - 1; i >= 0; --i) {
+            temparr = JSON.parse(arr[i]);
+            d7.push(temparr[1]);
+          }
+        }).then(() => {
+          console.log(d7);
+          if (this.focusing === 'first') {
+            this.$bus.$emit('intervalDatal', [d0, d1, d2, d3, d4, d5]);
+            return;
+          } else
+          if (this.focusing === 'second') {
+            this.$bus.$emit('intervalDatar', [d0, d6, d7]);
+            return;
+          }
+        });
       })
-      this.$bus.$emit('intervalData', [d0, d1, d2, d3, d4, d5]);
     },
     chooseCategory(ca) {
       this.category = ca;

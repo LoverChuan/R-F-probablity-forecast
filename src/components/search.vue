@@ -1,7 +1,7 @@
 <template>
   <div class="search">
     <el-input v-model="input" placeholder="请输入日期区间长度"></el-input>
-    <el-button type="primary" icon="el-icon-search" @click="handleClick()">显示</el-button>
+    <el-button type="primary" icon="el-icon-search" @click="handleClick()">查询</el-button>
   </div>
 </template>
 
@@ -14,7 +14,7 @@ export default {
   },
   methods: {
     handleClick() {
-      console.log('hi!', this.input);
+      console.log("length:", this.input);
       this.$bus.$emit('inputDateInterval', this.input);
     }
   }

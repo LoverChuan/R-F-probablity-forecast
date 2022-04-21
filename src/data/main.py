@@ -1,3 +1,4 @@
+import math
 import numpy as np
 import os
 
@@ -39,6 +40,16 @@ class SlimData:
     def output(self):
         print(self.cal)
 
+def sigmoid(x):
+    if (x > 10000):
+        return 1
+    if (x < -10000):
+        return 0
+    return 1.0 / (1.0 + math.exp(-x))
+
+def uniforma(x):
+    return sigmoid(x) - 0.5
+
 def f(filename):
     d = []
     with open(filename) as file_object:
@@ -73,6 +84,7 @@ def f(filename):
         else:
             a = [former.date, sprice / count, maxprice, minprice, amountsum]
             b = [former.date, former.startPrice, i.endPrice, maxprice, minprice, amountsum]
+
             st = ''.join(str(int(v)) + ',' for v in b)
             st = '[' + st[0:-1] + ']' + '\n'
             datastring = st + datastring
