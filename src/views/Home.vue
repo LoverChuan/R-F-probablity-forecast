@@ -73,7 +73,7 @@ export default {
       this.interval = length;
       let d0 = [], d1 = [], d2 = [], d3 = [], d4 = [], d5 = [], d6 = [], d7 = [], arr, temparr;
       this.readFile(`0_${this.category}_15m.txt`).then(res0 => {
-        arr = res0.split('\r\n'), temparr;
+        arr = res0.replaceAll('\r', '').split('\n'), temparr;
         for (let i = length - 1; i >= 0; --i) {
           temparr = JSON.parse(arr[i]);
           d0.push(temparr[0]);
@@ -88,7 +88,7 @@ export default {
         console.log("focusing:", this.focusing);
 
         this.readFile(`1_${this.category}_15m.txt`).then(res1 => {
-          arr = res1.split('\r\n')
+          arr = res1.replaceAll('\r', '').split('\n')
           for (let i = length - 1; i >= 0; --i) {
             temparr = JSON.parse(arr[i]);
             d7.push(temparr[1]);

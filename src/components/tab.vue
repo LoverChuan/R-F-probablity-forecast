@@ -1,10 +1,13 @@
 <template>
   <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
-    <el-tab-pane label="近期数据统计" name="first">
+    <el-tab-pane label="近期数据" name="first">
       <Chartl></Chartl>
     </el-tab-pane>
-    <el-tab-pane label="预测" name="second">
+    <el-tab-pane label="趋势预测" name="second">
       <Chartr></Chartr>
+    </el-tab-pane>
+    <el-tab-pane label="次日涨跌预测" name="third">
+      hhh
     </el-tab-pane>
   </el-tabs>
 </template>
